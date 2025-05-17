@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kyra's Portfolio & To-Do</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: linear-gradient(90deg, hsl(308, 100%, 72%), #357ab8);
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+    nav {
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      padding: 12px 0;
+      gap: 30px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #4a90e2;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a.active, nav a:hover {
+      background: #e0ecfa;
+      color: #1c3c72;
+    }
+    main {
+      flex-grow: 1;
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    }
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    h2 {
+      color: #4a90e2;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    p, li {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    #taskInput, textarea, input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    #addBtn, button[type="submit"] {
+      background: hsl(293, 72%, 59%);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    #addBtn:hover, button[type="submit"]:hover {
+      background: hsl;
+    }
+    #taskList {
+      margin-top: 20px;
+      list-style: none;
+    }
+    #taskList li {
+      background: #f1f5fc;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    #taskList li.done {
+      text-decoration: line-through;
+      color: #888;
+      background: #d7e3f7;
+    }
+    .delBtn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .delBtn:hover {
+      background: #c0392b;
+    }
+    footer {
+      background: #e37ffc;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-weight: 600;
+    }
+    @media (max-width: 600px) {
+      main {
+        margin: 20px;
+        padding: 20px;
+      }
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kyra's Portfolio</h1>
+  </header>
+  <nav>
+    <a href="#" class="nav-link active" data-section="home">Home</a>
+    <a href="#" class="nav-link" data-section="projects">Projects</a>
+    <a href="#" class="nav-link" data-section="todo">To-Do</a>
+    <a href="#" class="nav-link" data-section="contact">Contact</a>
+  </nav>
+  <main>
+    <section id="home" class="section active">
+      <h2>Welcome</h2>
+      <p>Hello! I'm Kyra, a passionate developer. Explore my projects and manage your tasks here.</p>
+    </section>
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <ul>
+        <li><strong>Personal Website</strong></li>
+        <li><strong>Simple Blog Platform</strong></li>
+        <li><strong>To-Do List App</strong></li>
+      </ul>
+    </section>
+    <section id="todo" class="section">
+      <h2>To-Do List</h2>
+      <input type="text" id="taskInput" placeholder="Add a new task..." />
+      <button id="addBtn">Add Task</button>
+      <ul id="taskList"></ul>
+    </section>
+    <section id="contact" class="section">
+      <h2>Contact Me</h2>
+      <form onsubmit="event.preventDefault(); alert('Message sent!'); this.reset();">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Kyra. All rights reserved.
+  </footer>
+  <script>
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('main .section');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        const targetId = link.getAttribute('data-section');
+        sections.forEach(section => {
+          section.classList.toggle('active', section.id === targetId);
+        });
+      });
+    });
+
+    const taskInput = document.getElementById('taskInput');
+    const addBtn = document.getElementById('addBtn');
+    const taskList = document.getElementById('taskList');
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function renderTasks() {
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.textContent = task.text;
+        if (task.done) li.classList.add('done');
+        li.addEventListener('click', () => {
+          tasks[index].done = !tasks[index].done;
+          saveTasks();
+          renderTasks();
+        });
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.className = 'delBtn';
+        delBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          tasks.splice(index, 1);
+          saveTasks();
+          renderTasks();
+        });
+        li.appendChild(delBtn);
+        taskList.appendChild(li);
+      });
+    }
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    addBtn.addEventListener('click', () => {
+      const text = taskInput.value.trim();
+      if (!text) return alert('Please enter a task');
+      tasks.push({ text, done: false });
+      saveTasks();
+      renderTasks();
+      taskInput.value = '';
+      taskInput.focus();
+    });
+
+    renderTasks();
+  </script>
+</body>
+</html>
